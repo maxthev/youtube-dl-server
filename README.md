@@ -2,7 +2,13 @@
 
 # youtube-dl-server
 
-Very spartan Web and REST interface for downloading youtube videos onto a server. [`starlette`](https://github.com/encode/starlette) + [`youtube-dl`](https://github.com/rg3/youtube-dl).
+Web UI and REST interface for downloading youtube videos. [`starlette`](https://github.com/encode/starlette) + [`youtube-dl`](https://github.com/rg3/youtube-dl).
+
+### Format used
+
+- 720p : best[height=1080][ext=mp4]/best[height=1080][ext=mkv]/bestvideo[height<=1080][ext=mp4]+bestaudio/best[height<=?1080]
+- 1080p : best[height=720][ext=mp4]/best[height=720][ext=mkv]/bestvideo[height<=720][ext=mp4]+bestaudio/best[height<=?720]
+- Best : bestvideo[ext=mp4]+bestaudio/best[ext=mp4]/best[ext=mkv]
 
 ## Running
 
@@ -12,24 +18,13 @@ This is an example service definition that could be put in `docker-compose.yml`.
 
 ```yml
   youtube-dl:
-    build: .
-    network_mode: "service:vpn"
+    image: mthevenot/youtube-dl-server
     volumes:
-      - /home/core/youtube-dl:/youtube-dl
+      - /home/youtube-dl:/youtube-dl
     ports:
       - 8080:8080
     restart: unless-stopped
 ```
-
-### Python
-
-If you have python ^3.6.0 installed in your PATH you can simply run like this, providing optional environment variable overrides inline.
-
-```shell
-YDL_SERVER_PORT=8123 YDL_UPDATE_TIME=False python3 -u ./youtube-dl-server.py
-```
-
-In this example, `YDL_UPDATE_TIME=False` is the same as the command line option `--no-mtime`.
 
 ## Usage
 
@@ -54,7 +49,7 @@ fetch(`http://${host}:8080/youtube-dl/q`, {
   method: "POST",
   body: new URLSearchParams({
     url: url,
-    format: "bestvideo"
+    format: "720p"
   }),
 });
 ```
@@ -72,3 +67,8 @@ javascript:!function(){fetch("http://${host}:8080/youtube-dl/q",{body:new URLSea
 The server uses [`starlette`](https://github.com/encode/starlette) for the web framework and [`youtube-dl`](https://github.com/rg3/youtube-dl) to handle the downloading. The integration with youtube-dl makes use of their [python api](https://github.com/rg3/youtube-dl#embedding-youtube-dl).
 
 This docker image is based on [`python:alpine`](https://registry.hub.docker.com/_/python/) and consequently [`alpine:3.8`](https://hub.docker.com/_/alpine/).
+
+
+## Credits
+
+This repo is a fork from [`manbearwiz/youtube-dl-server`](https://github.com/manbearwiz/youtube-dl-server)
