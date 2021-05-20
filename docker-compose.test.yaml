@@ -1,0 +1,10 @@
+version: "3.3"
+
+services:
+  youtube-dl:
+    build: .
+    volumes:
+      - ./test/youtube-dl:/youtube-dl
+    ports:
+      - 8080:8080
+    restart: unless-stopped

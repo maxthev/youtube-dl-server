@@ -1,0 +1,10 @@
+version: "3.3"
+
+services:
+  youtube-dl:
+    image: mthevenot/youtube-dl-server
+    volumes:
+      - ./test/youtube-dl:/youtube-dl
+    ports:
+      - 8080:8080
+    restart: unless-stopped
