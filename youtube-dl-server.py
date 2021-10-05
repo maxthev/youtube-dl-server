@@ -22,7 +22,9 @@ app_defaults = {
     "YDL_ARCHIVE_FILE": None,
     "YDL_SERVER_HOST": "0.0.0.0",
     "YDL_SERVER_PORT": 8080,
-    "YDL_UPDATE_TIME": "True",
+    "YDL_UPDATE_TIME": "False",
+    "YDL_WRITE_JSON": "True",
+    "YDL_WRITE_DESC": "True",
 }
 
 
@@ -82,7 +84,9 @@ def get_ydl_options(request_options):
         "format": ydl_vars["YDL_FORMAT"],
         "outtmpl": ydl_vars["YDL_OUTPUT_TEMPLATE"],
         "download_archive": ydl_vars["YDL_ARCHIVE_FILE"],
-        "updatetime": ydl_vars["YDL_UPDATE_TIME"] == "True",
+        "updatetime": ydl_vars["YDL_UPDATE_TIME"],
+        "writeinfojson": ydl_vars["YDL_WRITE_JSON"],
+        "writedescription": ydl_vars["YDL_WRITE_DESC"],
     }
 
 
