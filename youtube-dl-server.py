@@ -8,7 +8,7 @@ from starlette.templating import Jinja2Templates
 from starlette.background import BackgroundTask
 
 import uvicorn
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 from collections import ChainMap
 
 templates = Jinja2Templates(directory="")
