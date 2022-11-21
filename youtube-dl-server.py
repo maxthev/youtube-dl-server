@@ -2,7 +2,7 @@ import os, sys, subprocess
 
 from starlette.applications import Starlette
 from starlette.staticfiles import StaticFiles
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, RedirectResponse
 from starlette.routing import Mount, Route
 from starlette.templating import Jinja2Templates
 from starlette.background import BackgroundTask
@@ -27,6 +27,8 @@ app_defaults = {
     "YDL_WRITE_DESC": "True",
 }
 
+async def redirect(request):
+    return RedirectResponse(url="/youtube-dl")
 
 async def dl_queue_list(request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -96,6 +98,7 @@ def download(url, request_options):
 
 
 routes = [
+    Route("/", endpoint=redirect),
     Route("/youtube-dl", endpoint=dl_queue_list),
     Route("/youtube-dl/q", endpoint=q_put, methods=["POST"]),
     Route("/youtube-dl/update", endpoint=update_route, methods=["PUT"]),
